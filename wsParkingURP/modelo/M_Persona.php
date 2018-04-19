@@ -12,7 +12,7 @@ class M_Persona
 	}
 
 	public function insertar($codigo, $nombre, $ape_paterno, $ape_materno, $celular, $correo, $id_tipo_persona, $id_carrera){
-		$sql = "INSERT INTO T_Persona VALUES('$codigo', '$nombre', '$ape_paterno', '$ape_materno', '$celular', '$correo', '$id_tipo_persona', '$id_carrera')";
+		$sql = "INSERT INTO T_Persona VALUES('','$codigo', '$nombre', '$ape_paterno', '$ape_materno', '$celular', '$correo', '$id_tipo_persona', '$id_carrera')";
 		return ejecutarConsulta($sql);
 	}
 
