@@ -21,6 +21,19 @@ function login(){
 	echo json_encode($datos);
 }
 
+function insertarUsuario()
+{
+	require_once '../modelo/M_Usuario.php';
+	$m_usuario = new M_Usuario();
+
+	$codigo = $_REQUEST['codigo'];
+	$password = $_REQUEST['password'];
+
+	$rspta = $m_usuario->insertarUsuario($codigo, $password);
+	echo json_encode("Registro exitoso.");
+
+}
+
 function getAll(){
 
 	require_once '../modelo/M_Usuario.php';
@@ -61,6 +74,10 @@ function ejecutar($metodo){
 
 		case 'prueba':
 			prueba();
+			break;
+
+		case 'insertarUsuario':
+			insertarUsuario();
 			break;
 
 		case 'getAll':

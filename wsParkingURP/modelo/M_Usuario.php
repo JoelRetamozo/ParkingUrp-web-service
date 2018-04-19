@@ -17,6 +17,12 @@ class M_Usuario
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
+	public function insertarUsuario($codigo, $password)
+	{
+		$sql = "INSERT INTO t_usuario VALUES ((SELECT 'id_persona' FROM t_persona ORDER BY id_persona DESC LIMIT 1) ,'$codigo','$password',0)";
+		return ejecutarConsulta($sql);
+	}
+
 	public function getAll(){
 		$sql = "SELECT * FROM T_Usuario";
 		return ejecutarConsulta($sql);
