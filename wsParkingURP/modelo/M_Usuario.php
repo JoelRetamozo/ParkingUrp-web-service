@@ -19,7 +19,7 @@ class M_Usuario
 
 	public function insertarUsuario($codigo, $password)
 	{
-		$sql = "INSERT INTO t_usuario VALUES ((SELECT 'id_persona' FROM t_persona ORDER BY id_persona DESC LIMIT 1) ,'$codigo','$password',0)";
+		$sql = "INSERT INTO t_usuario VALUES ((SELECT 'id_persona' FROM t_persona ORDER BY id_persona DESC LIMIT 1) ,'$codigo','$password',0,null)";
 		return ejecutarConsulta($sql);
 	}
 
