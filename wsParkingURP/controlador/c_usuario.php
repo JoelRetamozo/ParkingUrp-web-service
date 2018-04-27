@@ -72,10 +72,6 @@ function ejecutar($metodo){
 			login();
 			break;
 
-		case 'prueba':
-			prueba();
-			break;
-
 		case 'insertarUsuario':
 			insertarUsuario();
 			break;

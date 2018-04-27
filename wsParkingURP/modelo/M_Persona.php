@@ -17,8 +17,8 @@ class M_Persona
 	}
 
 	public function existeCodigo($codigo){
-		$sql = "SELECT COUNT(*) FROM T_Usuario WHERE codigo = '$codigo'";
-		return ejecutarConsultaSimpleFila($sql);
+		$sql = "SELECT COUNT(*) as cou FROM T_Usuario WHERE codigo = '$codigo'";
+		return ejecutarConsulta($sql);
 	}
 }
 
