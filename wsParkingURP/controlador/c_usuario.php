@@ -6,19 +6,22 @@ function prueba(){
 	echo "holi" . $bienvenida;
 }
 
-function login(){
+function login()
+{
+	require_once '../modelo/M_Usuario.php';
+	$m_usuario = new M_Usuario();
+
 	$codigo = $_REQUEST['codigo'];
 	$password = $_REQUEST['password'];
 
 	$rspta = $m_usuario->login($codigo, $password);
 
-	$datos = array();
+	$datos = Array();
 
-	foreach ($rspta->fetch_object() as $row) {
+	foreach ($rspta as $row) {
 		$datos[] = $row;
 	}
-
-	echo json_encode($datos);
+		echo json_encode($datos);
 }
 
 function insertarUsuario()

@@ -12,9 +12,9 @@ class M_Usuario
 	}
 
 	public function login($codigo, $password){
-		$sql = "SELECT * FROM T_Usuario WHERE codigo='$codigo' AND password='$password'";
+		$sql = "SELECT COUNT(*) AS CONTADOR FROM T_Usuario WHERE codigo='$codigo' AND password='$password'";
 
-		return ejecutarConsultaSimpleFila($sql);
+		return ejecutarConsulta($sql);
 	}
 
 	public function insertarUsuario($codigo, $password)
