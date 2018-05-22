@@ -21,7 +21,7 @@ function login()
 	foreach ($rspta as $row) {
 		$datos[] = $row;
 	}
-		echo json_encode($datos);
+	echo json_encode($datos);
 }
 
 function insertarUsuario()
