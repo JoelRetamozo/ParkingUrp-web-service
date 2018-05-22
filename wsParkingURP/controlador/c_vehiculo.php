@@ -20,7 +20,7 @@ function getVehiculosPersona()
 	echo json_encode($datos);
 }
 
-//2)http://localhost:8080/ParkingUrpWS/wsParkingURP/controlador/c_vehiculo.php?metodo=getVehiculosPersona&codigo=201411545&tipoV=Auto
+//2)http://localhost:8080/ParkingUrpWS/wsParkingURP/controlador/c_vehiculo.php?metodo=getDataVehiculo&placa=HSB285&tipoV=Auto
 function getDataVehiculo()
 {
     require_once '../modelo/M_Vehiculo.php';
