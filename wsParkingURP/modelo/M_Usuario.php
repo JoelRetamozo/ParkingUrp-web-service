@@ -27,6 +27,12 @@ class M_Usuario
 		$sql = "SELECT * FROM T_Usuario";
 		return ejecutarConsulta($sql);
 	}
+
+	public function getPerfil($codigo)
+	{
+		$sql = "SELECT * FROM t_persona WHERE codigo='$codigo'";
+		return ejecutarConsulta($sql);
+	}
 }
 
 ?>

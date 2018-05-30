@@ -52,6 +52,24 @@ function getAll(){
 		echo json_encode($datos);
 }
 
+
+function getPerfilxCodigo()
+{
+	require_once '../modelo/M_Usuario.php';
+	$m_usuario = new M_Usuario();
+
+	$codigo = $_REQUEST['codigo'];
+
+	$rspta = $m_usuario->getPerfil($codigo);
+
+	$datos = Array();
+
+	foreach ($rspta as $row) {
+		$datos[] = $row;
+	}
+	echo json_encode($datos);
+}
+
 /*-------------------------------------------------------------------------
 - Apartir de aqui van los metodos a ejecutar.
 
@@ -81,6 +99,9 @@ function ejecutar($metodo){
 
 		case 'getAll':
 			getAll();
+			break;
+		case 'getPerfilxCodigo':
+			getPerfilxCodigo();
 			break;
 		
 		default:

@@ -11,7 +11,14 @@ class M_Vehiculo
     //Nos mostrara los vehiculos por conductor, filtro en tipo de vehiculo y codigo conductor
     public function selectVehiculoPersona($codigo, $tipoV)
     {
-        $sql = "SELECT t_vehiculo.placa, t_vehiculo.descripcion, t_vehiculo.estado FROM t_vehiculo INNER JOIN t_persona_has_t_vehiculo on t_vehiculo.id_vehiculo = t_persona_has_t_vehiculo.id_vehiculo INNER JOIN t_persona on t_persona.id_persona = t_persona_has_t_vehiculo.id_persona WHERE t_persona.codigo = '$codigo' AND t_vehiculo.tipo_vehiculo = '$tipoV'";
+        $sql = "SELECT ws_vehiculo.placa, ws_vehiculo.marca, ws_vehiculo.color from ws_vehiculo INNER JOIN t_vehiculo on t_vehiculo.placa = ws_vehiculo.placa INNER JOIN t_persona_has_t_vehiculo on t_persona_has_t_vehiculo.placa = t_vehiculo.placa WHERE t_persona_has_t_vehiculo.codigo = '$codigo' AND t_vehiculo.tipo_vehiculo = '$tipoV'";
+        return ejecutarConsulta($sql);
+    }
+
+    //Contador de vehiculos por tipo y codigo
+    public function countVehiculoPersona($codigo, $tipoV)
+    {
+        $sql = "SELECT count(*) as cont from ws_vehiculo INNER JOIN t_vehiculo on t_vehiculo.placa = ws_vehiculo.placa INNER JOIN t_persona_has_t_vehiculo on t_persona_has_t_vehiculo.placa = t_vehiculo.placa WHERE t_persona_has_t_vehiculo.codigo = '$codigo' AND t_vehiculo.tipo_vehiculo = '$tipoV'";
         return ejecutarConsulta($sql);
     }
 
@@ -21,6 +28,37 @@ class M_Vehiculo
         $sql = "SELECT * FROM ws_vehiculo WHERE placa = '$placa' AND tipo_vehiculo = '$tipoV'";
         return ejecutarConsulta($sql);
     }
+
+    //ver cuantas veces aparece vehiculo
+    public function countVehiculo($placa)
+    {
+        $sql = "SELECT count(*) as contadorV FROM t_persona_has_t_vehiculo WHERE placa = '$placa'";
+        return ejecutarConsulta($sql);
+    }
+
+    //eliminar en t_persona_has_t_vehiculo y vehiculo en caso el vehiculo solo este registrado en un solo usuario
+    public function deletePersonaHasVehiculo($placa)
+    {
+        $sql = "DELETE FROM t_persona_has_t_vehiculo WHERE placa = '$placa'";
+        return ejecutarConsulta($sql);
+    }
+
+    public function deleteVehiculo($placa)
+    {
+        $sql = "DELETE FROM t_vehiculo WHERE placa = '$placa'";
+        return ejecutarConsulta($sql);
+    }
+    //-----------------------------------------------------
+
+    //eliminar vehiculo a un usuario, en caso la placa ya este registrada en otro usuario
+    public function deleteVehiculoPersona($placa, $codigo)
+    {
+        $sql = "DELETE FROM t_persona_has_t_vehiculo WHERE placa = '$placa' and codigo='$codigo'";
+        return ejecutarConsulta($sql);
+    }
+
+
+
 }
 
 ?>
