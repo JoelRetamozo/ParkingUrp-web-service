@@ -119,6 +119,88 @@ function deleteVehiculoUsuario()
 	echo json_encode("Eliminacion exitosa.");
 }
 
+function registrarTvehiculo()
+{
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+    
+    $placa = $_REQUEST['placa'];
+    $tipoV = $_REQUEST['tipoV'];
+    
+    $rspta = $m_vehiculo->registrarTVehiculo($placa,$tipoV);
+
+    $datos = Array();
+
+	echo json_encode("Registro exitosa.");
+}
+
+function registrarVehiculoPersona()
+{
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+    
+    $placa = $_REQUEST['placa'];
+    $codigo = $_REQUEST['codigo'];
+    
+    $rspta = $m_vehiculo->registrarVehiculoPersona($placa,$codigo);
+
+    $datos = Array();
+
+	echo json_encode("Registro exitosa.");
+}
+
+function getSiExisteConUser()
+{
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+    
+    $placa = $_REQUEST['placa'];
+    $codigo = $_REQUEST['codigo'];
+    
+    $rspta = $m_vehiculo->consultaVehiculoExisteUsuario($placa, $codigo);
+
+    $datos = Array();
+
+	foreach ($rspta as $row) {
+		$datos[] = $row;
+	}
+	echo json_encode($datos);
+}
+
+function registrarBicicleta()
+{
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+    
+    $placa = $_REQUEST['placa'];
+    $descripcion=$_REQUEST['descripcion'];
+    $estado=$_REQUEST['estado'];
+    $tipo_vehiculo=$_REQUEST['tipo_vehiculo'];
+    
+    $rspta = $m_vehiculo->insertBicicleta($placa,$descripcion,$estado,$tipo_vehiculo);
+
+    $datos = Array();
+
+    echo json_encode("Registro exitoso");
+}
+
+function getBiciPorPersona()
+{
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+    
+    $codigo = $_REQUEST['codigo'];
+    $tipoV = $_REQUEST['tipoV'];
+    
+    $rspta = $m_vehiculo->selectBicicletaPorPersona($codigo, $tipoV);
+
+    $datos = Array();
+
+	foreach ($rspta as $row) {
+		$datos[] = $row;
+	}
+	echo json_encode(array('vehiculos' => $datos));
+}
 
 $metodo = $_REQUEST['metodo'];
 $funcion = ejecutar($metodo);
@@ -146,6 +228,24 @@ function ejecutar($metodo){
         case 'deleteVehiculoUsuario':
             deleteVehiculoUsuario();
             break;
+        case 'registrarTvehiculo':
+            registrarTvehiculo();
+            break;
+        case 'registrarVehiculoPersona':
+            registrarVehiculoPersona();
+            break;
+
+        case 'getSiExisteConUser':
+            getSiExisteConUser();
+            break;
+
+        case 'registrarBicicleta':
+            registrarBicicleta();
+            break;
+
+        case 'getBiciPorPersona':
+        getBiciPorPersona();
+        break;
 
 		default:
 			echo "No existe el metodo";

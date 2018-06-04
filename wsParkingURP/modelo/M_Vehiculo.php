@@ -57,7 +57,42 @@ class M_Vehiculo
         return ejecutarConsulta($sql);
     }
 
+    //Registrar vehiculo por primera vez
 
+    public function registrarTVehiculo($placa, $tipoV)
+    {
+        $sql = "INSERT INTO t_vehiculo values('$placa',null,1,'$tipoV')";
+        return ejecutarConsulta($sql);
+    }
+
+    public function registrarVehiculoPersona($placa, $codigo)
+    {
+        $sql = "INSERT INTO t_persona_has_t_vehiculo values('$codigo','$placa')";
+        return ejecutarConsulta($sql);
+    }
+
+    //Registrar vehiculo por si ya existe
+
+    //****************usar la fx registrarVehiculoPersona  */
+
+    //Consultar si vehiculo ya se encuentra registrado con usuario
+    public function consultaVehiculoExisteUsuario($placa, $codigo)
+    {
+        $sql = "SELECT COUNT(*) as cc from t_persona_has_t_vehiculo WHERE placa = '$placa' and codigo='$codigo'";
+        return ejecutarConsulta($sql);
+    }
+
+    public function insertBicicleta($placa,$descripcion,$estado,$tipo_vehiculo)
+    {
+        $sql = "INSERT INTO t_vehiculo SET placa = '$placa' , descripcion='$descripcion', estado='$estado', tipo_vehiculo='$tipo_vehiculo'";
+        return ejecutarConsulta($sql);
+    }
+
+    public function selectBicicletaPorPersona($codigo, $tipoV)
+    {
+        $sql = "SELECT t_vehiculo.placa, t_vehiculo.descripcion from t_vehiculo INNER JOIN t_persona_has_t_vehiculo on t_persona_has_t_vehiculo.placa = t_vehiculo.placa WHERE t_persona_has_t_vehiculo.codigo = '$codigo' AND t_vehiculo.tipo_vehiculo = '$tipoV'";
+        return ejecutarConsulta($sql);
+    }
 
 }
 
