@@ -1,39 +1,45 @@
 <?php
 
-function registrarSugerencia()
-{
-    require_once '../modelo/M_Sugerencia.php';
-    $m_sugerencia = new M_Sugerencia();
-    
-    $detalle = $_REQUEST['detalle'];
-    $imagen = $_REQUEST['imagen'];
-    $estado = $_REQUEST['estado'];
-    $codigo = $_REQUEST['codigo'];
+$hostname_localhost = "localhost";
+$database_localhost = "BD_ParkingURP";
+$username_localhost = "root";
+$password_localhost = "";
 
-    $path = "imagenes/$detalle.png";
-    
+$conexion = mysqli_connect($hostname_localhost, $username_localhost, $password_localhost, $database_localhost);
+
+$detalle = $_POST["detalle"];
+$imagen = $_POST["imagen"];
+$estado = $_POST["estado"];
+$codigo = $_POST["codigo"];
+
+$path = "imagenes/$detalle.jpg";
+
+$url = "http://$hostname_localhost/wsParkingURP/controlador/$path";
+
+
+if ($imagen != NULL)
+{
     file_put_contents($path, base64_decode($imagen));
     $bytesArchivo = file_get_contents($path);
-    
-    $rspta = $m_sugerencia->registrarSugerencia($detalle,$imagen,$estado,$codigo);
 
-    $datos = Array();
-
-	echo json_encode("Registro exitosa.");
+    $sql = "INSERT INTO t_sugerencia values (null,?,?,?,?)";
+    $stm = $conexion->prepare($sql);
+    $stm->bind_param('ssss',$detalle,$bytesArchivo,$estado,$codigo);
+}
+else
+{
+    $sql = "INSERT INTO t_sugerencia values (null,?,null,?,?)";
+    $stm = $conexion->prepare($sql);
+    $stm->bind_param('sss',$detalle,$estado,$codigo);
 }
 
-$metodo = $_REQUEST['metodo'];
-$funcion = ejecutar($metodo);
 
-function ejecutar($metodo){
-	switch ($metodo) {
-		case 'registrarSugerencia':
-            registrarSugerencia();
-            break;
-		default:
-			echo "No existe el metodo";
-			break;
-	}
+if($stm->execute())
+{
+    echo 'registra';
+}else
+{
+    echo 'noRegistra';
 }
 
 
