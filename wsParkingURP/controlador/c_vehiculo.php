@@ -254,6 +254,21 @@ function solicitarPermanencia()
     echo json_encode("Registro exitoso");
 }
 
+function getAllec(){
+
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+
+	$rspta = $m_vehiculo->getAllec();
+
+	$datos = Array();
+
+	foreach ($rspta as $row) {
+		$datos[] = $row;
+	}
+		echo json_encode($datos);
+}
+
 $metodo = $_REQUEST['metodo'];
 $funcion = ejecutar($metodo);
 
@@ -317,6 +332,10 @@ function ejecutar($metodo){
 
         case 'solicitarPermanencia':
             solicitarPermanencia();
+            break;
+
+        case 'getAllec':
+            getAllec();
             break;
 
 		default:

@@ -113,6 +113,13 @@ class M_Vehiculo
         return ejecutarConsulta($sql);
     }
 
+    //------------estacionamiento cercano--------------------------------------
+
+    public function getAllec(){
+		$sql = "SELECT * FROM t_estacionamiento_cercano";
+		return ejecutarConsulta($sql);
+	}
+
 
 
 }
