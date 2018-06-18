@@ -202,6 +202,58 @@ function getBiciPorPersona()
 	echo json_encode(array('vehiculos' => $datos));
 }
 
+function getControlNowSalidaNull()
+{
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+    
+    $fecha = $_REQUEST['fecha'];
+    $codigo = $_REQUEST['codigo'];
+    
+    $rspta = $m_vehiculo->getControlNow($fecha, $codigo);
+
+    $datos = Array();
+
+	foreach ($rspta as $row) {
+		$datos[] = $row;
+	}
+	echo json_encode(array('control' => $datos));
+}
+
+function getPermanenciaByUser()
+{
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+    
+    $codigo = $_REQUEST['codigo'];
+    
+    $rspta = $m_vehiculo->getPermanencia($codigo);
+
+    $datos = Array();
+
+	foreach ($rspta as $row) {
+		$datos[] = $row;
+	}
+	echo json_encode(array('permanencia' => $datos));
+}
+
+function solicitarPermanencia()
+{
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+    
+    $salida = $_REQUEST['salida'];
+    $fq=$_REQUEST['flag_quedarse'];
+    $motivo=$_REQUEST['motivo'];
+    $id=$_REQUEST['id_control'];
+    
+    $rspta = $m_vehiculo->setPermanenciaConductor($salida, $fq, $motivo, $id);
+
+    $datos = Array();
+
+    echo json_encode("Registro exitoso");
+}
+
 $metodo = $_REQUEST['metodo'];
 $funcion = ejecutar($metodo);
 
@@ -210,27 +262,35 @@ function ejecutar($metodo){
 		case 'getVehiculosPersona':
             getVehiculosPersona();
             break;
+
         case 'getDataVehiculo':
             getDataVehiculo();
             break;
+
         case 'getCountVehiculo':
             getCountVehiculo();
             break;
+            
         case 'getCountVehiculoRegistrados':
             getCountVehiculoRegistrados();
             break;
+
         case 'deletePerVeh':
             deletePerVeh();
             break;
+
         case 'deleteVeh':
             deleteVeh();
             break;
+
         case 'deleteVehiculoUsuario':
             deleteVehiculoUsuario();
             break;
+
         case 'registrarTvehiculo':
             registrarTvehiculo();
             break;
+
         case 'registrarVehiculoPersona':
             registrarVehiculoPersona();
             break;
@@ -244,8 +304,20 @@ function ejecutar($metodo){
             break;
 
         case 'getBiciPorPersona':
-        getBiciPorPersona();
-        break;
+            getBiciPorPersona();
+            break;
+
+        case 'getControlNowSalidaNull':
+            getControlNowSalidaNull();
+            break;
+
+        case 'getPermanenciaByUser':
+            getPermanenciaByUser();
+            break;
+
+        case 'solicitarPermanencia':
+            solicitarPermanencia();
+            break;
 
 		default:
 			echo "No existe el metodo";

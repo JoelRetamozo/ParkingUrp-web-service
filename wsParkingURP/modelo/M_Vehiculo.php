@@ -94,6 +94,27 @@ class M_Vehiculo
         return ejecutarConsulta($sql);
     }
 
+    //---------------------------Gestionar Permanencia--------------------------------------------
+    public function getControlNow($fecha, $codigo)
+    {
+        $sql = "SELECT * FROM t_control inner join t_vehiculo on t_control.placa = t_vehiculo.placa WHERE (Date_format(t_control.entrada,'%m/%d/%Y') = Date_format('$fecha','%m/%d/%Y')) AND t_control.codigo = '$codigo' AND t_control.salida IS NULL AND t_vehiculo.tipo_vehiculo = 'Auto'";
+        return ejecutarConsulta($sql);
+    }
+
+    public function getPermanencia($codigo)
+    {
+        $sql = "SELECT * FROM t_control WHERE flag_quedarse>0 AND codigo = '$codigo' ";
+        return ejecutarConsulta($sql);
+    }
+
+    public function setPermanenciaConductor($salida, $fq, $motivo, $id)
+    {
+        $sql = "UPDATE t_control set salida = '$salida', flag_quedarse = '$fq', motivo = '$motivo' where id_control = '$id' ";
+        return ejecutarConsulta($sql);
+    }
+
+
+
 }
 
 ?>
