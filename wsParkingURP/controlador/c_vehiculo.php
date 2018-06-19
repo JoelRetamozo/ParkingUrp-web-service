@@ -269,6 +269,25 @@ function getAllec(){
 		echo json_encode($datos);
 }
 
+//Eliminacion Vehiculo
+function updateDeleteVehiculo()
+{
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+    
+    $codigo = $_REQUEST['codigo'];
+    $placa = $_REQUEST['placa'];
+
+    
+    $rspta = $m_vehiculo->updateToDeleteVehicle($codigo, $placa);
+
+    $datos = Array();
+
+    echo json_encode("Registro exitoso");
+}
+
+//----------------
+
 $metodo = $_REQUEST['metodo'];
 $funcion = ejecutar($metodo);
 
@@ -337,6 +356,10 @@ function ejecutar($metodo){
         case 'getAllec':
             getAllec();
             break;
+
+        case 'updateDeleteVehiculo':
+        updateDeleteVehiculo();
+        break;
 
 		default:
 			echo "No existe el metodo";

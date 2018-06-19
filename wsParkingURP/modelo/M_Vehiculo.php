@@ -11,7 +11,7 @@ class M_Vehiculo
     //Nos mostrara los vehiculos por conductor, filtro en tipo de vehiculo y codigo conductor
     public function selectVehiculoPersona($codigo, $tipoV)
     {
-        $sql = "SELECT ws_vehiculo.placa, ws_vehiculo.marca, ws_vehiculo.color from ws_vehiculo INNER JOIN t_vehiculo on t_vehiculo.placa = ws_vehiculo.placa INNER JOIN t_persona_has_t_vehiculo on t_persona_has_t_vehiculo.placa = t_vehiculo.placa WHERE t_persona_has_t_vehiculo.codigo = '$codigo' AND t_vehiculo.tipo_vehiculo = '$tipoV'";
+        $sql = "SELECT ws_vehiculo.placa, ws_vehiculo.marca, ws_vehiculo.color from ws_vehiculo INNER JOIN t_vehiculo on t_vehiculo.placa = ws_vehiculo.placa INNER JOIN t_persona_has_t_vehiculo on t_persona_has_t_vehiculo.placa = t_vehiculo.placa WHERE t_persona_has_t_vehiculo.codigo = '$codigo' AND t_vehiculo.tipo_vehiculo = '$tipoV' AND t_persona_has_t_vehiculo.estado=1";
         return ejecutarConsulta($sql);
     }
 
@@ -118,9 +118,14 @@ class M_Vehiculo
     public function getAllec(){
 		$sql = "SELECT * FROM t_estacionamiento_cercano";
 		return ejecutarConsulta($sql);
-	}
-
-
+    }
+    
+    //--------------------------------------------------------------------Eliminar Vehiculo-------------------------------
+    public function updateToDeleteVehicle($codigo, $placa)
+    {
+        $sql = "UPDATE t_persona_has_t_vehiculo set estado=0 where codigo='$codigo' and placa='$placa'";
+		return ejecutarConsulta($sql);
+    }
 
 }
 
