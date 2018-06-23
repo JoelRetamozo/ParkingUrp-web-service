@@ -75,50 +75,6 @@ function getCountVehiculoRegistrados()
 	echo json_encode($datos);
 }
 
-function deletePerVeh()
-{
-    require_once '../modelo/M_Vehiculo.php';
-    $m_vehiculo = new M_Vehiculo();
-    
-    $placa = $_REQUEST['placa'];
-    
-    $rspta = $m_vehiculo->deletePersonaHasVehiculo($placa);
-
-    $datos = Array();
-
-	echo json_encode("Eliminacion exitosa.");
-}
-
-function deleteVeh()
-{
-    require_once '../modelo/M_Vehiculo.php';
-    $m_vehiculo = new M_Vehiculo();
-    
-    $placa = $_REQUEST['placa'];
-    
-    $rspta = $m_vehiculo->deleteVehiculo($placa);
-
-    $datos = Array();
-
-	echo json_encode("Eliminacion exitosa.");
-}
-
-
-function deleteVehiculoUsuario()
-{
-    require_once '../modelo/M_Vehiculo.php';
-    $m_vehiculo = new M_Vehiculo();
-    
-    $placa = $_REQUEST['placa'];
-    $codigo = $_REQUEST['codigo'];
-    
-    $rspta = $m_vehiculo->deleteVehiculoPersona($placa,$codigo);
-
-    $datos = Array();
-
-	echo json_encode("Eliminacion exitosa.");
-}
-
 function registrarTvehiculo()
 {
     require_once '../modelo/M_Vehiculo.php';
@@ -269,21 +225,40 @@ function getAllec(){
 		echo json_encode($datos);
 }
 
-//Eliminacion Vehiculo
+//Eliminacion Vehiculo y actualizacion
 function updateDeleteVehiculo()
 {
     require_once '../modelo/M_Vehiculo.php';
     $m_vehiculo = new M_Vehiculo();
     
+    $state = $_REQUEST['estado'];
     $codigo = $_REQUEST['codigo'];
     $placa = $_REQUEST['placa'];
 
     
-    $rspta = $m_vehiculo->updateToDeleteVehicle($codigo, $placa);
+    $rspta = $m_vehiculo->updateToDeleteVehicle($state, $codigo, $placa);
 
     $datos = Array();
 
     echo json_encode("Registro exitoso");
+}
+
+function getIfExistPlaca(){
+
+    require_once '../modelo/M_Vehiculo.php';
+    $m_vehiculo = new M_Vehiculo();
+    
+    $codigo = $_REQUEST['codigo'];
+    $placa = $_REQUEST['placa'];
+    
+    $rspta = $m_vehiculo->checkIfExist($codigo, $placa);
+
+    $datos = Array();
+
+	foreach ($rspta as $row) {
+		$datos[] = $row;
+	}
+	echo json_encode($datos);
 }
 
 //----------------
@@ -307,18 +282,6 @@ function ejecutar($metodo){
             
         case 'getCountVehiculoRegistrados':
             getCountVehiculoRegistrados();
-            break;
-
-        case 'deletePerVeh':
-            deletePerVeh();
-            break;
-
-        case 'deleteVeh':
-            deleteVeh();
-            break;
-
-        case 'deleteVehiculoUsuario':
-            deleteVehiculoUsuario();
             break;
 
         case 'registrarTvehiculo':
@@ -358,8 +321,12 @@ function ejecutar($metodo){
             break;
 
         case 'updateDeleteVehiculo':
-        updateDeleteVehiculo();
-        break;
+            updateDeleteVehiculo();
+            break;
+
+        case 'getIfExistPlaca':
+            getIfExistPlaca();
+            break;
 
 		default:
 			echo "No existe el metodo";

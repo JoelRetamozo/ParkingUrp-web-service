@@ -36,27 +36,6 @@ class M_Vehiculo
         return ejecutarConsulta($sql);
     }
 
-    //eliminar en t_persona_has_t_vehiculo y vehiculo en caso el vehiculo solo este registrado en un solo usuario
-    public function deletePersonaHasVehiculo($placa)
-    {
-        $sql = "DELETE FROM t_persona_has_t_vehiculo WHERE placa = '$placa'";
-        return ejecutarConsulta($sql);
-    }
-
-    public function deleteVehiculo($placa)
-    {
-        $sql = "DELETE FROM t_vehiculo WHERE placa = '$placa'";
-        return ejecutarConsulta($sql);
-    }
-    //-----------------------------------------------------
-
-    //eliminar vehiculo a un usuario, en caso la placa ya este registrada en otro usuario
-    public function deleteVehiculoPersona($placa, $codigo)
-    {
-        $sql = "DELETE FROM t_persona_has_t_vehiculo WHERE placa = '$placa' and codigo='$codigo'";
-        return ejecutarConsulta($sql);
-    }
-
     //Registrar vehiculo por primera vez
 
     public function registrarTVehiculo($placa, $tipoV)
@@ -67,7 +46,7 @@ class M_Vehiculo
 
     public function registrarVehiculoPersona($placa, $codigo)
     {
-        $sql = "INSERT INTO t_persona_has_t_vehiculo values('$codigo','$placa')";
+        $sql = "INSERT INTO t_persona_has_t_vehiculo values('$codigo','$placa',1)";
         return ejecutarConsulta($sql);
     }
 
@@ -90,7 +69,7 @@ class M_Vehiculo
 
     public function selectBicicletaPorPersona($codigo, $tipoV)
     {
-        $sql = "SELECT t_vehiculo.placa, t_vehiculo.descripcion from t_vehiculo INNER JOIN t_persona_has_t_vehiculo on t_persona_has_t_vehiculo.placa = t_vehiculo.placa WHERE t_persona_has_t_vehiculo.codigo = '$codigo' AND t_vehiculo.tipo_vehiculo = '$tipoV'";
+        $sql = "SELECT t_vehiculo.placa, t_vehiculo.descripcion from t_vehiculo INNER JOIN t_persona_has_t_vehiculo on t_persona_has_t_vehiculo.placa = t_vehiculo.placa WHERE t_persona_has_t_vehiculo.codigo = '$codigo' AND t_vehiculo.tipo_vehiculo = '$tipoV' AND t_persona_has_t_vehiculo.estado=1";
         return ejecutarConsulta($sql);
     }
 
@@ -121,9 +100,15 @@ class M_Vehiculo
     }
     
     //--------------------------------------------------------------------Eliminar Vehiculo-------------------------------
-    public function updateToDeleteVehicle($codigo, $placa)
+    public function updateToDeleteVehicle($state ,$codigo, $placa)
     {
-        $sql = "UPDATE t_persona_has_t_vehiculo set estado=0 where codigo='$codigo' and placa='$placa'";
+        $sql = "UPDATE t_persona_has_t_vehiculo set estado='$state' where codigo='$codigo' and placa='$placa'";
+		return ejecutarConsulta($sql);
+    }
+
+    public function checkIfExist($codigo, $placa)
+    {
+        $sql = "SELECT IF( EXISTS( SELECT * FROM t_persona_has_t_vehiculo WHERE codigo = '$codigo' AND placa = '$placa' AND estado = 0), 1, 0) AS X";
 		return ejecutarConsulta($sql);
     }
 
